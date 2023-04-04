@@ -12,8 +12,9 @@ Additionally, the use of a custom ERC20 token as a form of reward for investors 
 
 Overall, our project has the potential to create a more inclusive and equitable financing system for farmers, and to promote sustainable and responsible agricultural practices. By leveraging blockchain technology, our platform provides a more transparent and secure means of crowdfunding, which could have a positive impact on the agriculture industry and rural communities worldwide.
 
-<h2>Run by</h2>
-<hr>
+<h2>How to run</h2>
+
+use the following commands in the powershell in the root directory:
 <h3>For client</h3>
 <code>cd client</code><br>
 <code>npm i</code><br>
