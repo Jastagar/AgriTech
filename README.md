@@ -1,5 +1,7 @@
-<h1>AgriHelp</h1>
+<h1>AgriTech</h1>
 Our project is a crowdfunding platform designed specifically for farmers. The platform utilizes a custom ERC20 token and blockchain smart contracts to facilitate secure and transparent transactions. The custom token is designed to function as a virtual currency, enabling users to invest in farmers' projects and earn rewards in the form of tokens. The blockchain smart contracts ensure that transactions are executed automatically, and funds are only released when predetermined conditions are met. This helps to ensure the integrity and transparency of the crowdfunding process, and provides farmers with a reliable and efficient means of raising funds for their projects. Overall, our project has the potential to revolutionize the way farmers access financing, and could have a significant positive impact on the agricultural industry.
+
+Hosted <a href='https://34.131.60.175/' target="_blank">Here</a>
 
 <h2>More precisely...</h2>
 To further elaborate, our crowdfunding platform for farmers provides an innovative solution to address the challenges faced by small and medium-sized farmers in accessing financing. Often, traditional lenders are reluctant to extend loans to farmers due to the inherent risks associated with agriculture, leaving farmers with limited options to raise capital.
