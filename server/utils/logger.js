@@ -1,3 +1,5 @@
+require("dotenv").config()
+// const logging = process.env.NODE_ENV!=='production'
 const logging = true
 const seprator= "-------------------------------------------------------------------"
 const spacer= `
@@ -27,6 +29,8 @@ function warn(...all){
     }
     return
 }
+
+info("Enviroment mode:",process.env.NODE_ENV)
 
 module.exports={
     info,

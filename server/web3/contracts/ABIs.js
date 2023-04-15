@@ -1,41 +1,5 @@
+
 const FundingABI = [
-	{
-		"inputs": [],
-		"name": "contribute",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_reason",
-				"type": "string"
-			},
-			{
-				"internalType": "address",
-				"name": "_reciver",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "createRequest",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "refund",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
 	{
 		"inputs": [
 			{
@@ -58,16 +22,42 @@ const FundingABI = [
 		"type": "constructor"
 	},
 	{
-		"inputs": [
+		"inputs": [],
+		"name": "GetAllowance",
+		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "_reqNumber",
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "voteRequest",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "GetContractTokenBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "GetUserTokenBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -86,8 +76,8 @@ const FundingABI = [
 				"type": "string"
 			},
 			{
-				"internalType": "address payable",
-				"name": "reciver",
+				"internalType": "address",
+				"name": "receiver",
 				"type": "address"
 			},
 			{
@@ -112,6 +102,25 @@ const FundingABI = [
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "_tokenamount",
+				"type": "uint256"
+			}
+		],
+		"name": "contribute",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "",
 				"type": "address"
@@ -129,21 +138,31 @@ const FundingABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "deadline",
-		"outputs": [
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_reason",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_receiver",
+				"type": "address"
+			},
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "_amount",
 				"type": "uint256"
 			}
 		],
-		"stateMutability": "view",
+		"name": "createRequest",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
 		"inputs": [],
-		"name": "getRaisedAmount",
+		"name": "deadline",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -217,6 +236,38 @@ const FundingABI = [
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_reqNumber",
+				"type": "uint256"
+			}
+		],
+		"name": "transferToBuy",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_reqNumber",
+				"type": "uint256"
+			}
+		],
+		"name": "voteRequest",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]
@@ -405,6 +456,30 @@ const CoinsABI = [
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "_reciver",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "withDrawTokens",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "owner",
 				"type": "address"
 			},
@@ -497,10 +572,21 @@ const CoinsABI = [
 		"type": "function"
 	}
 ]
-const Caddress = "0xEa290a8F4fFdf0ca97ccf721c16812F71f8Deffb"
+const Caddress = "0xA9A470ad353967297F48A95D745390dECC53Ec35"
+const coinsOwnerAccount = '0x2ee4961905E3c9B6eC890d5F919224Ad6BD87637'
+// let Caddress
+
+// async function setAddress(){
+// 	res = await fetch('https://asia-south1-kissanblockchain.cloudfunctions.net/cAddressFunction')
+// 	const {data} = await res.json()
+// 	Caddress = data;
+// 	info(Caddress);
+// }
 
 module.exports = {
 	FundingABI,
 	CoinsABI,
-	Caddress
+	Caddress,
+	coinsOwnerAccount
+	// setAddress
 }

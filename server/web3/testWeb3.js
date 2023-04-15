@@ -1,22 +1,20 @@
-const {transferKCO, giveApproval} = require('./web3Wallet')
+// const Product = require('../models/Product')
+// const User=require('../models/User')
+// const mongoose = require('mongoose')
+// const {info}=require('../utils/logger')
 
-const fromAddress = '0x879005ce3b64a880e1512d759cecb1bd857590f8'
-const toAddress = '0x1cE8c5Ccf95154C3B5A806f90392B62A1540052e'
-const amount = 5000
-const pass = "1234567890" // your passs here
+// mongoose.connect('mongodb+srv://admin:admin@maincluster.yajbyem.mongodb.net/?retryWrites=true&w=majority').then(() => {
+//     changeSoldBy()
+// })
 
-// transferKCO(fromAddress,toAddress,amount,pass)
-
-giveApproval(
-    fromAddress,
-    toAddress,
-    pass,
-    amount
-)
-
-// transferKCO(
-// 	'0x2ee4961905e3c9b6ec890d5f919224ad6bd87637',
-// 	'0x879005ce3b64a880e1512d759cecb1bd857590f8',
-// 	99,
-// 	'Iamjastagar1@mks'
-// 	)
+// async function changeSoldBy(){
+//     const products = await Product.find({})
+//     const Adminuser = await User.findById('642c42213607d4e5a862b9cc')
+//     info('Brfore',products)
+//     products.forEach(async (e) => {
+//         e.soldBy = Adminuser._id
+//         e.category = 'all'
+//         await e.save()
+//     })
+//     info('After',products)
+// }
