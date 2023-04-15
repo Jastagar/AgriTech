@@ -5,6 +5,26 @@ AgriTech is a one stop solution for farming needs. It is a crowdfunding platform
 <h2>What is AgriTech?</h2>
 Our project is a crowdfunding platform designed specifically for farmers. The platform utilizes a custom ERC20 token and blockchain smart contracts to facilitate secure and transparent transactions. The custom token is designed to function as a virtual currency, enabling users to invest in farmers' projects and earn rewards in the form of tokens. The blockchain smart contracts ensure that transactions are executed automatically, and funds are only released when predetermined conditions are met. This helps to ensure the integrity and transparency of the crowdfunding process, and provides farmers with a reliable and efficient means of raising funds for their projects. Overall, our project has the potential to revolutionize the way farmers access financing, and could have a significant positive impact on the agricultural industry.<br>
 
+<h2>Features</h2>
+<h3>KissanCoin</h3>
+KCO is the currency of AgriTech platforms. All the transactions involve buying, transferring and consuming certain amounts of KCO. It essentially is a custom ERC20 token developed to ensure security of funders' money while keeping transactions transparent.
+
+<h3>Wallet</h3>
+The wallet system enables the use of KCO. Users can buy KCO using an integrated payment gateway powered by RazorPay and store them in their AgriTech wallets. It also allows users to transfer KCO in between different wallets and keep track of transactions and contributions.
+
+<h3>Management</h3>
+The management modules essentially acts like a Product Lifecycle Management system with four different sections.
+The 'Planning' section enables users to create new plans that include duration and requirements. These plans allow users to plan for the next harvest season in advance and view the estimated budget, revenue and profit. 
+The 'Pipeline' section allows users to view the current status of sown crops and estimate the harvest month.
+The 'Inventory' section helps the users to maintain a structured record of items that they possess to facilitate thoughtful buying while keeping track of cost and value of all the items they possess.
+The 'Sales' section helps the users analyze their sales trends and hence allows them to plan their next harvest effectively.
+
+<h3>Campaigns</h3>
+Campaigns are the heart and soul of the platform. They facilitate crowdfunding for the users and also allow purchasing of goods by incorporating a voting mechanism among the contributors for every purchase made using the campaign money.
+
+<h3>AgriStore</h3>
+The AgriStore facilitates buying of farming related goods and equipments. It is deeply integrated with the whole platform to allow seemless experience. Users can buy the products using KCO or create campaigns and crowdsource the required amount of money and use it as a checkout option. 
+
 <h2>More precisely...</h2>
 To further elaborate, our crowdfunding platform for farmers provides an innovative solution to address the challenges faced by small and medium-sized farmers in accessing financing. Often, traditional lenders are reluctant to extend loans to farmers due to the inherent risks associated with agriculture, leaving farmers with limited options to raise capital.
 
