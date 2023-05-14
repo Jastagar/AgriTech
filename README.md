@@ -52,3 +52,7 @@ use the following commands in the powershell in the root directory:
 <code>cd server</code><br>
 <code>npm i</code><br>
 <code>npm run dev</code><br>
+
+<h2>Test Credentials</h2>
+Razorpay Test UPI ID: <code>success@razorpay</code><br/>
+You may create your own accounts for testing purposes.
