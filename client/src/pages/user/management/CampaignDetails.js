@@ -12,15 +12,16 @@ import { ContributeModal } from '../Campaigns'
 import { createVoteReq, getTransactionsForCamp, usevoteReq, voteForReq } from '../../../interceptors/web3ServerApi'
 import './CampaignDetails.css'
 import { toast } from 'react-toastify'
+import AlreadyContributed from '../../../assets/icons/tick-box.svg'
 
 
 function CreatorDetails({ isOwner, imgUrl, name, email, walletAddress, openModal }) {
 
-  return (
+  return (<>
     <div className='row shadow p-3 rounded'>
       <div className='col-12'>
         <div className='row justify-content-end'>
-          <div className='col-2 pb-4'>
+          <div className='col-5 col-sm-3 col-md-2 pb-4'>
             <Button onClick={openModal} variant='success'>Contribute Here</Button>
           </div>
         </div>
@@ -33,7 +34,7 @@ function CreatorDetails({ isOwner, imgUrl, name, email, walletAddress, openModal
           ? <legend>Creator</legend>
           : <legend className='bg-success bg-opacity-50 rounded '>Your Campaign</legend>
         }
-        <Table>
+        <Table responsive>
           <tbody className='text-start'>
             <tr>
               <th>Name</th>
@@ -51,15 +52,22 @@ function CreatorDetails({ isOwner, imgUrl, name, email, walletAddress, openModal
         </Table>
       </div>
     </div>
+  </>
   )
 }
 
-function CampaignInfo({ title, raisedAmount, target }) {
+function CampaignInfo({ title, raisedAmount, target, contributors }) {
+  const { currentUser } = useUser()
   return (
     <div className='row mt-4 shadow p-3 rounded justify-content-around'>
       <div className='col-12'>
         <div className='display-2 text-start'>
           {title}
+          {
+            contributors.find(contributor => contributor.userId == currentUser) ?
+              <img src={AlreadyContributed} width="80px" height="80px" alt="" />
+              : <></>
+          }
         </div>
       </div>
       <hr />
@@ -111,7 +119,6 @@ function CampaignPrograssBar({ raisedAmount, target }) {
   )
 }
 
-
 function WithdrawRequests({ cid, reason, amount, votes, voters, receiver, isOwner, voteNumber }) {
 
   const [prompt, openPrompt] = useState(false)
@@ -134,17 +141,30 @@ function WithdrawRequests({ cid, reason, amount, votes, voters, receiver, isOwne
     console.log(dataToSend)
     const res = await usevoteReq(dataToSend)
     handlePrompt()
-
-    toast.success(res.message, {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    if (res.error) {
+      toast.error(res.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    else {
+      toast.success(res.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   }
 
 
@@ -299,17 +319,30 @@ function CreateRequestModal({ show, handleShow, vid }) {
       campaignId: activeCampaign._id
     }
     const res = await createVoteReq(dataToSend)
-
-    toast.success(res.message, {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    if (res.response.data.error) {
+      toast.error(res.response.data.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    else {
+      toast.success(res.response.data.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   }
 
   return (
@@ -419,6 +452,7 @@ function Transaction({ sno, receiverId, createdAt, amount, txHash }) {
     </>
   )
 }
+
 function TransactionsHistory({ tx }) {
   return (
     <div>
@@ -491,7 +525,7 @@ function CampaignVotesinfo({ isOwner }) {
 export default function CampaignDetails() {
 
   const { activeCampaign, changeActiveCampaign } = useContext(CampaignContext)
-  const { userData, loadingUser, getUserData } = useUser()
+  const { userData, loadingUser, getUserData, currentUser } = useUser()
   const [show, setShow] = useState(false);
   function handleShow() {
     setShow(!show)

@@ -7,10 +7,13 @@ import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
+import CurrencyIconComponent from '../../assets/widgets/CurrencyIconComponent'
 import Spinner from 'react-bootstrap/Spinner'
 import './Wallet.css'
 import StoreContext from '../../context/StoreContext'
 import QRCode from 'qrcode'
+import KCO from '../../assets/icons/currencyIcon.png'
+import QRCodeStyling from "qr-code-styling";
 import { ToastContainer, toast } from 'react-toastify'
 
 function TransferModule() {
@@ -19,7 +22,7 @@ function TransferModule() {
   const amountTo = useInput('number', 'how much to send')
   const password = useInput('password', 'Enter password')
   const [loading, setLoading] = useState(false);
-  const { userData,getUserData } = useUser()
+  const { userData, getUserData } = useUser()
 
   function handleShow() { setShow(!show) }
 
@@ -49,12 +52,12 @@ function TransferModule() {
         progress: undefined,
         theme: "light",
       });
-      setTimeout(getUserData,2500)
+      setTimeout(getUserData, 2500)
     }
     setLoading(false)
   }
   return (
-    <Form onSubmit={transfer} className='shadow p-3 text-start'>
+    <Form onSubmit={transfer} className='p-3 text-start'>
       <fieldset className='py-2'>
         <label htmlFor='transferInputAddress'>Address:</label>
         <input id='transferInputAddress' className='form-control' {...addressTo} />
@@ -76,7 +79,7 @@ function TransferModule() {
   )
 }
 
-export function Transaction({showHashes, sno, receiverId, userId, createdAt, amount, txHash, camp, changeActiveCampaign }) {
+export function Transaction({ showHashes, sno, receiverId, userId, createdAt, amount, txHash, camp, changeActiveCampaign }) {
 
   const recivedPaid = receiverId === userId
 
@@ -310,14 +313,31 @@ function Wallet() {
   }
 
   function renderQR() {
-    QRCode.toCanvas(canvasRef.current, userData.walletAddress, function (error) {
-      if (error) console.error(error)
-      console.log('success!');
+    // QRCode.toCanvas(canvasRef.current, userData.walletAddress, function (error) {
+    //   if (error) console.error(error)
+    //   console.log('success!');
+    // })
+    const qrCode = new QRCodeStyling({
+      width: 200,
+      height: 200,
+      image: KCO,
+      dotsOptions: {
+        color: "#064635",
+        type: "rounded"
+      },
+      imageOptions: {
+        crossOrigin: "anonymous",
+        margin: 5
+      },
+      data: userData.walletAddress
     })
+    if (canvasRef.current.innerHTML === "")
+      qrCode.append(canvasRef.current)
   }
 
   useEffect(() => {
     if (userData) {
+      renderQR()
       getBalanceFormServer(userData.walletAddress)
       getTransactions().then(e => {
         console.log(e)
@@ -354,22 +374,27 @@ function Wallet() {
         theme="light"
       />
       <div className='row align-items-center'>
-        <div className='col-xl-6 p-4'>
-
-          <Table>
+        <div className='col-xl-2 col-md-5 mb-3'>
+          <div className='qr-code-scan'>
+            <div>
+              <div className='qrcode-container' ref={canvasRef} />
+            </div>
+            scan to get Address
+          </div>
+        </div>
+        <div className='col-xl-5 col-md-7 p-4'>
+          <Table responsive>
             <tbody>
               {
                 <tr>
                   <td>
                     <h3>Address:</h3>
                   </td>
-                  <td>
-                    <canvas hidden={!showQR} ref={canvasRef}></canvas>
+                  <td className='AddressClassTD'>
                     <h5 hidden={!showAddress} className='AddressClass' title='Copy' onClick={() => { navigator.clipboard.writeText(userData?.walletAddress) }} >{userData?.walletAddress}
                     </h5>
                     <sub className='text-center lead'>
-                      <p onClick={hideShowAddress} className='Camplink m-4'>{!showAddress ? "Show" : "Hide"} Address</p>
-                      <p onClick={() => { renderQR(); toggleQR(!showQR) }} className='Camplink m-4'>{!showQR ? "Show" : "Hide"} QR</p>
+                      <span onClick={hideShowAddress} className='Camplink m-4'>{!showAddress ? "Show" : "Hide"} Address</span>
                     </sub>
                   </td>
                 </tr>
@@ -380,7 +405,7 @@ function Wallet() {
                   <h3>Balance:</h3>
                 </td>
                 <td>
-                  <h4>{!balanceLoader ? balance : "Loading..."} KCO
+                  <h4> <CurrencyIconComponent size='35' adjustY={'-3%'} /> {!balanceLoader ? balance : "Loading..."} KCO
                   </h4>
                 </td>
               </tr>
@@ -392,12 +417,12 @@ function Wallet() {
             <AddKCOModal {...buyModalOptions} />
           </div>
         </div>
-        <div className='col-xl-6 p-4'>
+        <div className='col-xl-5 p-4 neumorphism-container'>
           <TransferModule />
         </div>
       </div>
 
-      <div className='row flex-column rounded shadow'>
+      <div className='row flex-column neumorphism-container'>
         {userData && (
           <>
             <TransactionHistory label={'Wallet Transactions'} userId={userData._id} tx={walletTx} />

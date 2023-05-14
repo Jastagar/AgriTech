@@ -6,13 +6,12 @@
     cursor: pointer;
 }
 
-.category-content {
-    margin-top: 10px;
-    display: flex;
-    flex-wrap: wrap;
-}
 
 .list-group .active {
     background-color: var(--c2) !important;
     border: 1px solid var(--c1) !important;
+}
+
+.agristore-content{
+    padding-left: 10%;
 }

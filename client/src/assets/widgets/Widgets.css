@@ -2,7 +2,9 @@
     padding: 20px 10px;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    min-height: 300px;
+    /* height: 100%; */
+    /* max-height: 400px; */
     justify-content: flex-start;
 }
 
@@ -29,4 +31,28 @@
 
 .list-group-item .subtext {
     font-size: smaller;
+}
+.contributedImage{
+    width: 2rem;
+    aspect-ratio: 1;
+}
+.ContributionTick{
+    background-color: #4c8757;
+    
+    position: absolute;
+    top:0;
+    right:0;
+    border-radius: 50%;
+    padding: 1.4rem;
+    padding-top: 5rem;
+    padding-right: 5rem;
+
+    translate: 45% -45%;
+
+    aspect-ratio: 1;
+    
+    display: grid;
+    place-items: center;
+
+
 }

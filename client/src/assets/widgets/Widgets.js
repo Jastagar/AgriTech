@@ -8,7 +8,9 @@ import { useUser } from '../../context/UserContext';
 import ManagementContext from '../../context/ManagementContext';
 import Table from 'react-bootstrap/esm/Table';
 import { Link, useNavigate } from 'react-router-dom';
-import {getTransactions} from '../../interceptors/web3ServerApi';
+import { getTransactions } from '../../interceptors/web3ServerApi';
+import AlreadyContributed from '../../assets/icons/tick-box.svg'
+import FontAwesome from 'react-fontawesome';
 
 //Widget renderer
 export function renderWidget(id, props) {
@@ -38,26 +40,35 @@ export function CampaignWidget({ title, target, contributors, _id, ...props }) {
     const numberOfContributors = contributors?.length
     const [collection, setCollection] = useState(0)
     const { changeActiveCampaign } = useContext(CampaignContext)
+    const { currentUser } = useUser()
     function handleShowDetails() {
         changeActiveCampaign(_id)
     }
 
     useEffect(() => {
+        console.log("getting CampLength")
         if (_id)
             getCollectonCampbyId(_id).then((res) => {
                 setCollection(res.raisedAmount)
             }).catch((err) => alert(err.message))
-    }, [])
+    }, [_id])
 
 
     return (
-        <div className='widget-container shadow rounded'>
+        <div className='widget-container'>
 
             {(title && target && contributors && _id) ?
                 <>
-                    <h3>{title}</h3>
+                    {
+                    contributors.find(contributor => contributor.userId === currentUser) &&
+                    <div className='ContributionTick'>
+                        <FontAwesome className='text-light' size='2x' name="check"/>
+                    </div>}
+                    <h3 className='container'>
+                        {title}
+                    </h3>
                     <h4>Campaign Progress</h4>
-                    {/* <div className="error-message" hidden={!error}>{error}</div> */}
+                    <hr />
                     <div className="campaign-progress">
                         <div className="progress" style={{ height: "30px" }}>
                             <div className="progress-bar progress-bar-success progress-bar-striped progress-bar-animated" role="progressbar"
@@ -159,16 +170,13 @@ export function PipelineWidget(props) {
             <hr className="style-two" />
             <div className="list list-group">
                 {
-                    userData && userData.currentPlan?.requirements?.map((item) => {
-                        if (item.category == 'crop') {
+                    userData && userData.currentPlan?.requirements?.map((item, i) => {
+                        if (item.category === 'crop') {
                             return (
-                                <>
-                                    <div className="list-group-item">
-                                        {item.item}<br />
-                                        <span className="subtext">Quantity: {item.quantity}</span>
-                                    </div>
-
-                                </>
+                                <div key={'PiplineWigetRenderItem' + i} className="list-group-item">
+                                    {item.item}<br />
+                                    <span className="subtext">Quantity: {item.quantity}</span>
+                                </div>
                             )
                         }
                     })
@@ -223,13 +231,13 @@ export function TransactionHistory(props) {
                         </tr>
                     </thead>
                     <tbody>
-                    {currentUser && tx.length ? tx.map((e, i) => i<=3 && <EachHistory userId={currentUser} key={'transactionHashKey' + i} sno={i + 1} {...e} />)
-                        : <tr><td colSpan='5'>No transactions yet</td></tr>}
-                    <tr hidden={txLen<=3} > 
-                        <td colSpan={3} className='text-end'>
-                            ...more
-                        </td>
-                    </tr>
+                        {currentUser && tx.length ? tx.map((e, i) => i <= 3 && <EachHistory userId={currentUser} key={'transactionHashKey' + i} sno={i + 1} {...e} />)
+                            : <tr><td colSpan='5'>No transactions yet</td></tr>}
+                        <tr hidden={txLen <= 3} >
+                            <td colSpan={3} className='text-end'>
+                                ...more
+                            </td>
+                        </tr>
                     </tbody>
                 </Table>
             </div>
@@ -238,61 +246,61 @@ export function TransactionHistory(props) {
 }
 
 
-export function EachHistoryContri({sno, receiverId, amount }) {
-    const {changeActiveCampaign} = useContext(CampaignContext)
+export function EachHistoryContri({ sno, receiverId, amount }) {
+    const { changeActiveCampaign } = useContext(CampaignContext)
     function checkCampaign() {
         changeActiveCampaign(receiverId)
     }
     return (
         <>
-        <tr>
-            <td>{sno}</td>
-            <td><span onClick={checkCampaign} className='Camplink'>{receiverId}</span></td>
-            <td>{amount}</td>
-        </tr>
+            <tr>
+                <td>{sno}</td>
+                <td><span onClick={checkCampaign} className='Camplink'>{receiverId}</span></td>
+                <td>{amount}</td>
+            </tr>
         </>
     )
 }
 
 export function ContributionHistory(props) {
-    const [tx,setTx] = useState([])
-    const [txLen,setTxLen] = useState(0)
-    const {currentUser} = useUser()
-    useEffect(()=>{
+    const [tx, setTx] = useState([])
+    const [txLen, setTxLen] = useState(0)
+    const { currentUser } = useUser()
+    useEffect(() => {
         getTransactions().then(e => {
             setTxLen(e.camp?.length)
-            if(e.camp?.length>3){
-                setTx(e.camp.reverse().slice(0,3))
-            }else{
+            if (e.camp?.length > 3) {
+                setTx(e.camp.reverse().slice(0, 3))
+            } else {
                 setTx(e.camp?.reverse())
             }
         })
-    },[])
+    }, [])
     return (
         <div className='p-2 widget-container'>
             <h4>
                 Contribution History
             </h4>
-            <hr className='style-two'/>
+            <hr className='style-two' />
             <div className='table-responsive'>
                 <Table className='w-100' striped bordered>
                     <thead>
-                    <tr>
-                        <th>S.No</th>
-                        <th>To/From</th>
-                        <th>Amount</th>
-                    </tr>
+                        <tr>
+                            <th>S.No</th>
+                            <th>To/From</th>
+                            <th>Amount</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {currentUser && tx?.length ? tx.map((e, i) => i<=3 && <EachHistoryContri key={'transactionHashKey' + i} sno={i + 1} {...e} />)
-                        : <tr><td colSpan='5'>No Contributions yet</td></tr>}
-                    <tr hidden={!txLen || txLen<=3} > 
-                        <td colSpan={3} className='text-end'>
-                            <Link to='/wallet'>
-                                ...more
-                            </Link>
-                        </td>
-                    </tr>
+                        {currentUser && tx?.length ? tx.map((e, i) => i <= 3 && <EachHistoryContri key={'transactionHashKey' + i} sno={i + 1} {...e} />)
+                            : <tr><td colSpan='5'>No Contributions yet</td></tr>}
+                        <tr hidden={!txLen || txLen <= 3} >
+                            <td colSpan={3} className='text-end'>
+                                <Link to='/wallet'>
+                                    ...more
+                                </Link>
+                            </td>
+                        </tr>
                     </tbody>
                 </Table>
             </div>
@@ -356,7 +364,7 @@ export function CurrentPlan(props) {
                         <div className="progress" style={{ height: "30px" }}>
                             <div className="progress-bar progress-bar-success progress-bar-striped progress-bar-animated" role="progressbar"
                                 aria-valuenow={`${(new Date() - new Date(userData?.currentPlan.executionStart)) * 100 / (new Date(userData?.currentPlan.executionEnd) - new Date(userData?.currentPlan.executionStart))}`} aria-valuemin="0" aria-valuemax="100" style={{ width: `${(new Date() - new Date(userData?.currentPlan.executionStart)) * 100 / (new Date(userData?.currentPlan.executionEnd) - new Date(userData?.currentPlan.executionStart))}%` }}>
-                                <span>{percentage}%</span>
+                                <span>{parseInt(percentage)}%</span>
                             </div>
                         </div>
                         <div className="current-campaign-widget-details mt-2">
